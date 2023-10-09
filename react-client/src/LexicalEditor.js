@@ -17,7 +17,7 @@ export default function Editor() {
         <LexicalComposer initialConfig={editorConfig}>
             <div className="editor-container">
                 <RichTextPlugin
-                    contentEditable={<ContentEditable/>}
+                    contentEditable={<ContentEditable className="editor-input"/>}
                     placeholder={<Placeholder/>}
                     ErrorBoundary={LexicalErrorBoundary}
                 />
@@ -30,7 +30,7 @@ export default function Editor() {
 
 const Placeholder = () => {
     return (
-        <div className="absolute top-[1.125rem] left-[1.125rem] opacity-50">
+        <div className="editor-placeholder">
             Enter a to-do...
         </div>
     );
