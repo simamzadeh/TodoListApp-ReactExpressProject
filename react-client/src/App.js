@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import logo from './logo.svg';
 import './App.css';
-import Editor from "./LexicalEditor";
+import Editor, {EditorWrapper} from "./LexicalEditor";
 
 class App extends Component {
   constructor(props) {
@@ -23,9 +23,9 @@ class App extends Component {
   render() {
     return (
         <div className="App">
-            <h1>Test title</h1>
-            <p>Example text</p>
-            <Editor/>
+            <h1>Lexical Text Editor</h1>
+            <p>A place to write your to-do's!</p>
+            <EditorWrapper/>
           <p className="App-intro">{this.state.apiResponse}</p>
         </div>
     );
