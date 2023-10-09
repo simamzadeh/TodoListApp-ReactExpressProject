@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import logo from './logo.svg';
 import './App.css';
+import Editor from "./LexicalEditor";
 
 class App extends Component {
   constructor(props) {
@@ -22,10 +23,9 @@ class App extends Component {
   render() {
     return (
         <div className="App">
-          <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <h1 className="App-title">Welcome to React</h1>
-          </header>
+            <h1>Test title</h1>
+            <p>Example text</p>
+            <Editor/>
           <p className="App-intro">{this.state.apiResponse}</p>
         </div>
     );
