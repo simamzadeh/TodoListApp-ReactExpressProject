@@ -11,6 +11,33 @@ var cors = require("cors");
 
 var app = express();
 
+const AWS = require('aws-sdk');
+AWS.config.update({region:'eu-west-2'});
+
+const client = new AWS.DynamoDB.DocumentClient;
+const tableName = 'ToDoListTable';
+
+
+app.get("/rows/all", (req, res) => {
+  var params = {
+    TableName: tableName
+  };
+
+  client.scan(params, (err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      var items = [];
+
+      for (var i in data.Items)
+        items.push(data.Items[i]['Name']);
+
+      res.contentType = 'application/json';
+      res.send(items);
+    }
+  });
+});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
