@@ -11,10 +11,12 @@ var cors = require("cors");
 
 var app = express();
 
+const bodyParser = require('body-parser');
+const { v4: uuidv4 } = require('uuid');
 const AWS = require('aws-sdk');
 AWS.config.update({region:'eu-west-2'});
 
-const client = new AWS.DynamoDB.DocumentClient;
+const dynamoDB = new AWS.DynamoDB.DocumentClient;
 const tableName = 'ToDoListTable';
 
 
@@ -23,7 +25,7 @@ app.get("/rows/all", (req, res) => {
     TableName: tableName
   };
 
-  client.scan(params, (err, data) => {
+  dynamoDB.scan(params, (err, data) => {
     if (err) {
       console.log(err);
     } else {
@@ -34,6 +36,32 @@ app.get("/rows/all", (req, res) => {
 
       res.contentType = 'application/json';
       res.send(items);
+    }
+  });
+});
+
+app.use(bodyParser.json());
+
+app.post("/rows/add", (req, res) => {
+  const todoData = req.body.todo;
+
+  var params = {
+    TableName: tableName,
+    Item: {
+      userID: todoData.userID,
+      taskID: Date.now().toString(),
+      taskName: todoData.taskName,
+      createdAt: new Date().toISOString(),
+    },
+  };
+
+  dynamoDB.put(params, (err) => {
+    if (err) {
+      console.error('Error saving to-do list:', err);
+      res.status(500).json({ error: 'Failed to save to-do list' });
+    } else {
+      console.log('To-do list saved successfully');
+      res.json({ message: 'To-do list saved successfully' });
     }
   });
 });
