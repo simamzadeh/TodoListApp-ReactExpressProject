@@ -17,51 +17,51 @@ const AWS = require('aws-sdk');
 AWS.config.update({region:'eu-west-2'});
 
 const dynamoDB = new AWS.DynamoDB.DocumentClient;
-const tableName = 'ToDoListTable';
+const tableName = 'LexicalTodoListTable';
 
 
-app.get("/rows/all", (req, res) => {
+app.get("/items", (req, res) => {
   var params = {
     TableName: tableName
   };
 
   dynamoDB.scan(params, (err, data) => {
     if (err) {
-      console.log(err);
+      console.log('Error scanning table:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
     } else {
-      var items = [];
-
-      for (var i in data.Items)
-        items.push(data.Items[i]['Name']);
-
-      res.contentType = 'application/json';
-      res.send(items);
+      res.json(data.Items);
     }
   });
 });
 
 app.use(bodyParser.json());
 
-app.post("/rows/add", (req, res) => {
-  const todoData = req.body.todo;
+app.post("/add", (req, res) => {
+  const todoID = uuidv4();
+  const createdAt = new Date().toISOString();
+  const { lexicalContext } = req.body;
 
-  var params = {
+  if (!todoID || !createdAt || !lexicalContext) {
+    res.status(400).json({ error: 'Missing required fields' });
+    return;
+  }
+
+  const params = {
     TableName: tableName,
     Item: {
-      userID: todoData.userID,
-      taskID: Date.now().toString(),
-      taskName: todoData.taskName,
+      todoID: todoID,
       createdAt: new Date().toISOString(),
+      lexicalContext: lexicalContext
     },
   };
 
   dynamoDB.put(params, (err) => {
     if (err) {
-      console.error('Error saving to-do list:', err);
-      res.status(500).json({ error: 'Failed to save to-do list' });
+      console.error('Error putting item:', err);
+      res.status(500).json({ error: 'Internal server error' });
     } else {
-      console.log('To-do list saved successfully');
-      res.json({ message: 'To-do list saved successfully' });
+      res.json({ message: 'Item added successfully' });
     }
   });
 });
