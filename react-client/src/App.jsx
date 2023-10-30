@@ -3,6 +3,7 @@ import './App.css';
 import Editor from "./LexicalEditor";
 import "./styles.css";
 import TextEditorForm from "./TextEditorForm";
+import TodoLists from "./TodoLists";
 import userEvent from "@testing-library/user-event";
 
 
@@ -46,6 +47,7 @@ const App = () => {
             {/*<p>A place to write your to-do's!</p>*/}
             {/*<Editor/>*/}
             <TextEditorForm onSaveText={onSaveText} />
+            <TodoLists />
             {/*<input onChange={(e)=>console.log(e.target.value)}/>*/}
             <p className="App-intro">{apiResponse}</p>
         </div>
