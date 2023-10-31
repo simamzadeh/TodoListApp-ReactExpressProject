@@ -4,7 +4,10 @@ import Editor from "./LexicalEditor";
 import "./styles.css";
 import TextEditorForm from "./TextEditorForm";
 import TodoLists from "./TodoLists";
+import "@cloudscape-design/global-styles/index.css"
+import "@cloudscape-design/components/textarea"
 import userEvent from "@testing-library/user-event";
+import CloudscapeTodoListForm from "./CloudscapeTodoListForm";
 
 
 const App = () => {
@@ -20,14 +23,14 @@ const App = () => {
         callAPI()
     }, []);
 
-    const onSaveText = (lexicalContext) => {
+    const onSaveText = (context) => {
 
         fetch('http://localhost:9000/add', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ lexicalContext }),
+            body: JSON.stringify({ context }),
         })
             .then((response) => {
                 if (response.ok) {
@@ -43,11 +46,11 @@ const App = () => {
 
     return (
         <div className="App">
-            <h1>Write your todo here!</h1>
+            {/*<h1>Write your todo here!</h1>*/}
             {/*<p>A place to write your to-do's!</p>*/}
             {/*<Editor/>*/}
-            <TextEditorForm onSaveText={onSaveText} />
-            <TodoLists />
+            <CloudscapeTodoListForm onSaveText={onSaveText} />
+            {/*<TodoLists />*/}
             {/*<input onChange={(e)=>console.log(e.target.value)}/>*/}
             <p className="App-intro">{apiResponse}</p>
         </div>

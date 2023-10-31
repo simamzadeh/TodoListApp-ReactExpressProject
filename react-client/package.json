@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.435.0",
+    "@cloudscape-design/components": "^3.0.419",
+    "@cloudscape-design/global-styles": "^1.0.15",
     "@lexical/react": "^0.12.2",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",

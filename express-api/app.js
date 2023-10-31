@@ -17,7 +17,7 @@ const AWS = require('aws-sdk');
 AWS.config.update({region:'eu-west-2'});
 
 const dynamoDB = new AWS.DynamoDB.DocumentClient;
-const tableName = 'LexicalTodoListTable';
+const tableName = 'TodoListTable';
 
 
 app.get("/items", (req, res) => {
@@ -40,9 +40,9 @@ app.use(bodyParser.json());
 app.post("/add", (req, res) => {
   const todoID = uuidv4();
   const createdAt = new Date().toISOString();
-  const { lexicalContext } = req.body;
+  const { context } = req.body;
 
-  if (!todoID || !createdAt || !lexicalContext) {
+  if (!todoID || !createdAt || !context) {
     res.status(400).json({ error: 'Missing required fields' });
     return;
   }
@@ -52,7 +52,7 @@ app.post("/add", (req, res) => {
     Item: {
       todoID: todoID,
       createdAt: new Date().toISOString(),
-      lexicalContext: lexicalContext
+      context: context
     },
   };
 
