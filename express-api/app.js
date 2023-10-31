@@ -43,7 +43,7 @@ app.post("/add", (req, res) => {
   const { title } = req.body;
   const { context } = req.body;
 
-  if (!todoID || !createdAt || !context) {
+  if (!todoID || !createdAt || ! title || !context) {
     res.status(400).json({ error: 'Missing required fields' });
     return;
   }

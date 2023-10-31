@@ -11,18 +11,19 @@ import Input from "@cloudscape-design/components/input"
 import {useState} from "react";
 
 function TodoListForm({ onSaveText }) {
-    const [value, setValue] = useState('');
-
+    const [title, setTitle] = useState('');
+    const [context, setContext] = useState('');
 
     const handleInputChange = (e) => {
-        setValue(e.target.value);
+        setTitle(e.target.value);
     };
 
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSaveText(value);
-        setValue('');
+        onSaveText(title, context);
+        setTitle('');
+        setContext('');
     };
 
     return (
@@ -50,15 +51,15 @@ function TodoListForm({ onSaveText }) {
                             <Input
                                 type="text"
                                 placeholder="Enter your title here"
-                                value={value}
-                                onChange={event => setValue(event.detail.value)}
+                                value={title}
+                                onChange={event => setTitle(event.detail.value)}
                             />
                         </FormField>
                         <Textarea
-                            value={value}
+                            value={context}
                             type="text"
                             placeholder="Enter your todo list here"
-                            onChange={event => setValue(event.detail.value)}
+                            onChange={event => setContext(event.detail.value)}
                         />
                     </SpaceBetween>
                 </Container>
