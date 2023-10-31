@@ -40,6 +40,7 @@ app.use(bodyParser.json());
 app.post("/add", (req, res) => {
   const todoID = uuidv4();
   const createdAt = new Date().toISOString();
+  const { title } = req.body;
   const { context } = req.body;
 
   if (!todoID || !createdAt || !context) {
@@ -52,6 +53,7 @@ app.post("/add", (req, res) => {
     Item: {
       todoID: todoID,
       createdAt: new Date().toISOString(),
+      title: title,
       context: context
     },
   };

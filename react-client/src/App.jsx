@@ -7,7 +7,7 @@ import TodoLists from "./TodoLists";
 import "@cloudscape-design/global-styles/index.css"
 import "@cloudscape-design/components/textarea"
 import userEvent from "@testing-library/user-event";
-import CloudscapeTodoListForm from "./CloudscapeTodoListForm";
+import TodoListForm from "./CloudscapeTodoListForm";
 
 
 const App = () => {
@@ -15,7 +15,7 @@ const App = () => {
     const callAPI = () => {
         fetch("http://localhost:9000/testAPI")
             .then(res => res.text())
-            .then(res => this.setState({ apiResponse: res }))
+            .then(res => setApiResponse(res))
             .catch(err => console.error(err));
     }
 
@@ -46,12 +46,7 @@ const App = () => {
 
     return (
         <div className="App">
-            {/*<h1>Write your todo here!</h1>*/}
-            {/*<p>A place to write your to-do's!</p>*/}
-            {/*<Editor/>*/}
-            <CloudscapeTodoListForm onSaveText={onSaveText} />
-            {/*<TodoLists />*/}
-            {/*<input onChange={(e)=>console.log(e.target.value)}/>*/}
+            <TodoListForm onSaveText={onSaveText} />
             <p className="App-intro">{apiResponse}</p>
         </div>
     );

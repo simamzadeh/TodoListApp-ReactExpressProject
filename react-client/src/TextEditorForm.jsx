@@ -1,25 +1,24 @@
 import React, { useState } from 'react';
 
 function TextEditorForm({ onSaveText }) {
-    const [lexicalContext, setLexicalContext] = useState('');
+    const [context, setContext] = useState('');
 
     const handleInputChange = (e) => {
-        setLexicalContext(e.target.value);
+        setContext(e.target.value);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSaveText(lexicalContext);
-        // Clear the input field or perform any other actions you need.
-        setLexicalContext('');
+        onSaveText(context);
+        setContext('');
     };
 
     return (
         <form onSubmit={handleSubmit}>
             <input
                 type="text"
-                placeholder="Enter your lexical context"
-                value={lexicalContext}
+                placeholder="Enter your context"
+                value={context}
                 onChange={handleInputChange}
             />
             <button type="submit">Save</button>

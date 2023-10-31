@@ -8,10 +8,25 @@ import SpaceBetween from "@cloudscape-design/components/space-between"
 import Container from "@cloudscape-design/components/container"
 import Header from "@cloudscape-design/components/header"
 import Input from "@cloudscape-design/components/input"
+import {useState} from "react";
 
-export default () => {
+function TodoListForm({ onSaveText }) {
+    const [value, setValue] = useState('');
+
+
+    const handleInputChange = (e) => {
+        setValue(e.target.value);
+    };
+
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        onSaveText(value);
+        setValue('');
+    };
+
     return (
-        <form onSubmit={e => e.preventDefault()}>
+        <form onSubmit={handleSubmit}>
             <Form
                 actions={
                     <SpaceBetween direction="horizontal" size="xs">
@@ -21,28 +36,35 @@ export default () => {
                         <Button variant="primary">Submit</Button>
                     </SpaceBetween>
                 }
-                header={<Header variant="h1">Form header</Header>}
+                // header={<Header variant="h1">Form header</Header>}
             >
                 <Container
                     header={
                         <Header variant="h2">
-                            Form container header
+                            What's on your todo list?
                         </Header>
                     }
                 >
                     <SpaceBetween direction="vertical" size="l">
-                        <FormField label="First field">
-                            <Input />
+                        <FormField>
+                            <Input
+                                type="text"
+                                placeholder="Enter your title here"
+                                value={value}
+                                onChange={event => setValue(event.detail.value)}
+                            />
                         </FormField>
-                        <FormField label="Second field">
-                            <Input />
-                        </FormField>
-                        <FormField label="Third field">
-                            <Input />
-                        </FormField>
+                        <Textarea
+                            value={value}
+                            type="text"
+                            placeholder="Enter your todo list here"
+                            onChange={event => setValue(event.detail.value)}
+                        />
                     </SpaceBetween>
                 </Container>
             </Form>
         </form>
     );
 }
+
+export default TodoListForm;
