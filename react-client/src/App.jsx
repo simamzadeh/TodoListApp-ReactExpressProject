@@ -19,20 +19,27 @@ const App = () => {
         callAPI()
     }, []);
 
-    const onSaveText = (context) => {
+    const onSaveText = (title, context) => {
+        const todo = {
+          title: title,
+          context: context,
+        };
 
+        // console.log(todo)
         fetch('http://localhost:9000/add', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ context }),
+            body: JSON.stringify(todo),
         })
             .then((response) => {
                 if (response.ok) {
                     console.log('Text saved successfully');
+                    console.log(response);
                 } else {
                     console.error('Error saving text');
+                    console.log(response);
                 }
             })
             .catch((error) => {

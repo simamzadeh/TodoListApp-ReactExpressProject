@@ -10,6 +10,12 @@ var testAPIRouter = require('./routes/testAPI');
 var cors = require("cors");
 
 var app = express();
+app.use(cors());
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Headers", "*");
+  next();
+});
 
 const bodyParser = require('body-parser');
 const { v4: uuidv4 } = require('uuid');
@@ -18,6 +24,7 @@ AWS.config.update({region:'eu-west-2'});
 
 const dynamoDB = new AWS.DynamoDB.DocumentClient;
 const tableName = 'TodoListTable';
+
 
 
 app.get("/items", (req, res) => {
@@ -40,10 +47,11 @@ app.use(bodyParser.json());
 app.post("/add", (req, res) => {
   const todoID = uuidv4();
   const createdAt = new Date().toISOString();
-  const { title } = req.body;
-  const { context } = req.body;
+  console.log(req.body)
+  const { title, context } = req.body;
 
-  if (!todoID || !createdAt || ! title || !context) {
+  console.log("I'm here")
+  if (!todoID || !createdAt || !title || !context) {
     res.status(400).json({ error: 'Missing required fields' });
     return;
   }
@@ -53,8 +61,8 @@ app.post("/add", (req, res) => {
     Item: {
       todoID: todoID,
       createdAt: new Date().toISOString(),
+      context: context,
       title: title,
-      context: context
     },
   };
 
@@ -72,7 +80,7 @@ app.post("/add", (req, res) => {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use(cors());
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

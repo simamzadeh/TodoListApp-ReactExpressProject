@@ -14,11 +14,6 @@ function TodoListForm({ onSaveText }) {
     const [title, setTitle] = useState('');
     const [context, setContext] = useState('');
 
-    const handleInputChange = (e) => {
-        setTitle(e.target.value);
-    };
-
-
     const handleSubmit = (e) => {
         e.preventDefault();
         onSaveText(title, context);
@@ -37,7 +32,6 @@ function TodoListForm({ onSaveText }) {
                         <Button variant="primary">Submit</Button>
                     </SpaceBetween>
                 }
-                // header={<Header variant="h1">Form header</Header>}
             >
                 <Container
                     header={
@@ -55,12 +49,15 @@ function TodoListForm({ onSaveText }) {
                                 onChange={event => setTitle(event.detail.value)}
                             />
                         </FormField>
-                        <Textarea
-                            value={context}
-                            type="text"
-                            placeholder="Enter your todo list here"
-                            onChange={event => setContext(event.detail.value)}
-                        />
+                        <FormField>
+                            <Textarea
+                                value={context}
+                                type="text"
+                                placeholder="Enter your todo list here"
+                                onChange={event => setContext(event.detail.value)}
+
+                            />
+                        </FormField>
                     </SpaceBetween>
                 </Container>
             </Form>
